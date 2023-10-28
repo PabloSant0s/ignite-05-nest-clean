@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
+
+# @name create_account
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+
+{
+  "name": "Pablo Santos",
+  "email": "pablorasantos.dev@gmail.com",
+  "password": "123456"
+}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "email": "pablorasantos.dev@gmail.com",
+  "password": "123456"
+}
+
+###
+
+# @name create-question
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Nova Pergunta 3",
+  "content": "Conteúdo Nova Pergunta"
+}
+###
+
+# @name fetch_recent_questions
+GET {{baseUrl}}/questions?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name upload_attachment
+POST {{baseUrl}}/attachments
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="sample-upload.png"
+Content-Type: image/png
+
+< ./sample-upload.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
